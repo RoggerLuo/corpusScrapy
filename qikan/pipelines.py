@@ -12,7 +12,9 @@ class QikanPipeline(object):
     def __init__(self):
         self.engine = 'no'
     def process_item(self, item, spider):
-        postInPipeline(item)
+        print('-----PipelinePipelinePipelinePipeline------')
+        print(item)
+        #postInPipeline(item)
         return item
 
     def close_spider(self, spider):

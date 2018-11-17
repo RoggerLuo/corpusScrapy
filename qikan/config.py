@@ -22,7 +22,7 @@ class Config(object):
 def proxyRequest(url,callback,meta={},headers={}):
     meta["proxy"] = proxyServer
     headers["Authorization"] = proxyAuth     
-    time.sleep(1)  # random.randint(1,3)
+    #time.sleep(1)  # random.randint(1,3)
     return scrapy.Request(url=url,meta=meta,callback=callback,headers=headers)
 
 def matchPaper(item):
