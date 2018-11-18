@@ -18,10 +18,11 @@ class Config(object):
     apiAddress = apiAddress
     proxyServer = proxyServer
     proxyAuth = proxyAuth
+    corpusPath = '/Users/RogersMac/Sites/corpusDownload'
 
 def proxyRequest(url,callback,meta={},headers={}):
-    meta["proxy"] = proxyServer
-    headers["Authorization"] = proxyAuth     
+    # meta["proxy"] = proxyServer
+    # headers["Authorization"] = proxyAuth    
     #time.sleep(1)  # random.randint(1,3)
     return scrapy.Request(url=url,meta=meta,callback=callback,headers=headers)
 
@@ -102,23 +103,14 @@ def savePaperPost(item, fileItem):  # 保存文章
 
 def postItemWithPdf(item):
     def dwnld(response):
-        file_path = Config().pdf_url + response.meta['filename']
-        if matchPaper(item) == True:
-            print('已存在重复文献，跳过')
-            return
-
-        with open(file_path, 'wb') as f:  # 上传pdf文件
-            f.write(response.body)
-            print(
-                '----------postItemWithPdf--------------------------------------------------')
-            file = {'file': open(file_path, 'rb')}
-            r = requests.post(apiAddress + '/paper/pdf', files=file)
-            dic = json.loads(r.text)
-            savePaperPost(item, dic['data']['media'])  # 保存文献信息
-            if(os.path.exists(file_path)):  # 判断文件是否存在
-                os.remove(file_path)
-                print('移除文件：%s' % file_path)
-
+        file_path = os.path.join(Config().corpusPath,response.meta['filename'])
+        if os.path.exists(file_path) == False:
+            with open(file_path, 'wb') as f:  # 上传pdf文件
+                f.write(response.body)
+                print('----文件下载成功----')
+                print(file_path)
+        else:
+            print('----文件已经存在---postItemWithPdf----')
     return dwnld
 
 

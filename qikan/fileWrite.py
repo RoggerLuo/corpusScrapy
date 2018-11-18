@@ -1,10 +1,13 @@
 import os
-def writeFile(filename,string):
+
+def write(filename,data):
     openMode = 'a'
-    if os.path.exists(filename) == True:
+    if os.path.exists(filename) == False:
         openMode = 'w'
-    with open(filename,openMode) as f:        
-        f.write(string)
+    with open(filename,openMode) as f:
+        for item in data:
+            f.write(item)
+
 # filename = 'write_data.txt'
 # print(os.path.exists(filename)) # True
 

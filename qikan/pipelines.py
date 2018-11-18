@@ -6,15 +6,20 @@ from scrapy import Request
 import os
 from PIL import Image
 # from .settings import IMAGES_STORE as image_store
-from qikan.config import postInPipeline
-
+from qikan.config import Config
+from qikan.fileWrite import write
 class QikanPipeline(object):
     def __init__(self):
         self.engine = 'no'
     def process_item(self, item, spider):
+        if item['download'] == True:
+            # href = item['href']
+            return 'end'
         print('-----PipelinePipelinePipelinePipeline------')
-        print(item)
-        #postInPipeline(item)
+        title = item['title']
+        data = item['content']
+        path = os.path.join(Config().corpusPath,title + '.txt')
+        write(path,data)
         return item
 
     def close_spider(self, spider):

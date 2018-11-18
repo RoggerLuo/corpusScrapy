@@ -11,11 +11,18 @@ from qikan.config import Config,postItemWithPdf,proxyRequest
 
 class SageSpider(scrapy.Spider):
     name = 'jjxsw'
-    start_urls = ['https://www.csdn.net/']
+    start_urls = ['http://www.56wen.com/wenxue/index_17.html']
     base_url = 'https://www.csdn.net'
 
     def parse(self, response):
-        hrefs = response.xpath("//div[@class='nav_com']/ul/li/a/@href").extract()
+        nextHref = response.xpath("//li[@class='next']/a/@href").extract()
+        print('nextHrefnextHrefnextHrefnextHref')
+        print(nextHref)
+        print(len(nextHref))
+
+        return
+        # hrefs = response.xpath("//div[@class='nav_com']/ul/li/a/@href").extract()
+        
         print('-------首页类别-------')
         print(len(hrefs))
         print('------------------------')
